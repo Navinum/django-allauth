@@ -13,7 +13,12 @@ from allauth.socialaccount.providers.oauth2.views import (OAuth2Adapter,
                                                           OAuth2CallbackView)
 
 from forms import FacebookConnectForm
+import logging
 from provider import FacebookProvider
+
+
+logger = logging.getLogger(__name__)
+
 
 def fb_complete_login(app, token):
     resp = requests.get('https://graph.facebook.com/me',
@@ -61,8 +66,9 @@ def login_by_token(request):
                 login.token = token
                 login.state = SocialLogin.state_from_request(request)
                 ret = complete_social_login(request, login)
-            except:
+            except Exception:
                 # FIXME: Catch only what is needed
+                logger.exception("login_by_token exception")
                 pass
     if not ret:
         ret = render_authentication_error(request)
