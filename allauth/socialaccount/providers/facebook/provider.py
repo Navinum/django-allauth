@@ -88,4 +88,14 @@ class FacebookProvider(OAuth2Provider):
                                 ctx,
                                 RequestContext(request))
 
+    def is_email_verified(self, request, email):
+        """
+        Skip email verification for facebook accounts.
+
+        See 
+            https://github.com/pennersr/django-allauth/issues/145
+        for arguments regarding this solution. 
+        """
+        return True
+
 providers.registry.register(FacebookProvider)
