@@ -9,7 +9,7 @@ from django.template.defaultfilters import slugify
 from allauth.utils import (generate_unique_username, email_address_exists,
                            get_user_model)
 from allauth.account.utils import send_email_confirmation, \
-    perform_login, complete_signup
+    perform_login, complete_signup, setup_user_email
 from allauth.account import app_settings as account_settings
 from allauth.exceptions import ImmediateHttpResponse
 
@@ -62,6 +62,7 @@ def _process_signup(request, sociallogin):
         u.email = email or ''
         u.set_unusable_password()
         sociallogin.save()
+        setup_user_email(request, u)
         send_email_confirmation(request, u)
         ret = complete_social_signup(request, sociallogin)
     return ret
