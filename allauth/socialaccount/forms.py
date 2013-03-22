@@ -4,6 +4,7 @@ from django import forms
 
 from allauth.account.forms import BaseSignupForm
 from allauth.account.utils import (send_email_confirmation,
+                                   setup_user_email,
                                    user_username, user_email)
 
 from .models import SocialAccount
@@ -30,7 +31,10 @@ class SignupForm(BaseSignupForm):
         self.sociallogin.save(request)
         super(SignupForm, self).save(new_user) 
         # Confirmation last (save may alter first_name etc -- used in mail)
-        send_email_confirmation(request, new_user)
+        email_address = setup_user_email(request, new_user, [])
+        if email_address:
+            email_address.for_new_user = True
+        send_email_confirmation(request, new_user, email_address=email_address)
         return new_user
 
 
