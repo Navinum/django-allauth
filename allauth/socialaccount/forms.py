@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
+from django.conf import settings
 
 from allauth.account.models import EmailAddress
 from allauth.account.forms import BaseSignupForm
@@ -26,7 +27,8 @@ class SignupForm(BaseSignupForm):
         super(SignupForm, self).save(new_user) 
         # Confirmation last (save may alter first_name etc -- used in mail)
         setup_user_email(request, new_user)
-        send_email_confirmation(request, new_user)
+        if settings.SEND_EMAIL_CONFIRMATIONS_TO_SOCIAL:
+            send_email_confirmation(request, new_user)
         return new_user
 
 

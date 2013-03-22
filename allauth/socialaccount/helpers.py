@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 from allauth.utils import (generate_unique_username, email_address_exists,
                            get_user_model)
@@ -63,7 +64,8 @@ def _process_signup(request, sociallogin):
         u.set_unusable_password()
         sociallogin.save()
         setup_user_email(request, u)
-        send_email_confirmation(request, u)
+        if settings.SEND_EMAIL_CONFIRMATIONS_TO_SOCIAL:
+            send_email_confirmation(request, u)
         ret = complete_social_signup(request, sociallogin)
     return ret
 
