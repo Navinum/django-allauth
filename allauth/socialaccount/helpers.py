@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 from allauth.utils import (generate_unique_username, email_address_exists,
                            get_user_model)
@@ -72,7 +73,8 @@ def _process_signup(request, sociallogin):
         user_email(u, email or '')
         u.set_unusable_password()
         sociallogin.save(request)
-        send_email_confirmation(request, u)
+        if getattr(settings, 'SEND_EMAIL_CONFIRMATIONS_TO_SOCIAL', True):
+            send_email_confirmation(request, u)
         ret = complete_social_signup(request, sociallogin)
     return ret
 

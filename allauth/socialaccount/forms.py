@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from django import forms
+from django.conf import settings
 
 from allauth.account.forms import BaseSignupForm
 from allauth.account.utils import (send_email_confirmation,
@@ -34,7 +35,8 @@ class SignupForm(BaseSignupForm):
         email_address = setup_user_email(request, new_user, [])
         if email_address:
             email_address.for_new_user = True
-        send_email_confirmation(request, new_user, email_address=email_address)
+        if getattr(settings, 'SEND_EMAIL_CONFIRMATIONS_TO_SOCIAL', True):
+            send_email_confirmation(request, new_user, email_address=email_address)
         return new_user
 
 
