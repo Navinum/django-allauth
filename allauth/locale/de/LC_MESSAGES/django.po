@@ -86,8 +86,8 @@ msgid "This username is already taken. Please choose another."
 msgstr "Der Benutzername ist bereits vergeben - bitte einen anderen wählen."
 
 #: account/forms.py:209
-msgid "A user is already registered with this e-mail address."
-msgstr "Ein Benutzer mit dieser E-Mail-Adresse ist bereits registriert."
+msgid "A user is already registered with this e-mail address. You can <a href='%(login_url)s'>login</a> here."
+msgstr "Ein Benutzer mit dieser E-Mail-Adresse ist bereits registriert. Hier können sie sich <a href='%(login_url)s'>einloggen</a>."
 
 #: account/forms.py:237
 #: account/forms.py:353
