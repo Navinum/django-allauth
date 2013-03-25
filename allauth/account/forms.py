@@ -206,7 +206,9 @@ class BaseSignupForm(_base_signup_form_class()):
         if app_settings.UNIQUE_EMAIL:
             if value and email_address_exists(value):
                 raise forms.ValidationError \
-                    (_("A user is already registered with this e-mail address."))
+                    (_("A user is already registered with this e-mail address. You can <a href='%(login_url)s'>login</a> here.") % {
+                        'login_url': reverse('account_login')
+                        })
         return value
     
     def create_user(self, commit=True):
