@@ -150,12 +150,8 @@ class ConfirmEmailView(TemplateResponseMixin, View):
             return [ "account/email_confirm.html" ]
     
     def get(self, *args, **kwargs):
-        try:
-            self.object = self.get_object()
-        except Http404:
-            self.object = None
-        ctx = self.get_context_data()
-        return self.render_to_response(ctx)
+        # Do verification upon GET request
+        return self.post(*args, **kwargs)
     
     def post(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
