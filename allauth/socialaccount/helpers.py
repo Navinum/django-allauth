@@ -120,7 +120,8 @@ def complete_social_login(request, sociallogin):
             next = sociallogin.get_redirect_url(request,
                                                 fallback=default_next)
             messages.add_message(request, messages.INFO, 
-                                 _('The social account has been connected'))
+                                 _('The social account has been connected'),
+                                 'socialaccount socialaccount_connect')
             return HttpResponseRedirect(next)
     else:
         if sociallogin.is_existing:

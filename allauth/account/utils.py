@@ -101,7 +101,8 @@ def perform_login(request, user, redirect_url=None):
                                 user=user)
     login(request, user)
     messages.add_message(request, messages.SUCCESS,
-                         ugettext("Successfully signed in as %(user)s.") % { "user": user_display(user) } )
+                         ugettext("Successfully signed in as %(user)s.") % { "user": user_display(user) },
+                         'account account_login')
 
     if not redirect_url:
         redirect_url = get_default_redirect(request)
@@ -174,7 +175,8 @@ def send_email_confirmation(request, user):
             email_confirmation_sent = False
         if not email_confirmation_sent:
             messages.info(request,
-                _(u"Confirmation e-mail sent to %(email)s") % {"email": email}
+                _(u"Confirmation e-mail sent to %(email)s") % {"email": email},
+                'account account_email account_email_send',
             )
 
 def sync_user_email_addresses(user):

@@ -51,7 +51,8 @@ def connections(request):
         form = DisconnectForm(request.POST, user=request.user)
         if form.is_valid():
             messages.add_message(request, messages.INFO, 
-                                 _('The social account has been disconnected'))
+                                 _('The social account has been disconnected'),
+                                 'socialaccount socialaccount_disconnect')
             form.save()
             form = None
     if not form:
